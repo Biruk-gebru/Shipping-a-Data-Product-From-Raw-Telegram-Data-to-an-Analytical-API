@@ -91,8 +91,17 @@ class TelegramScraper:
             print(f"Error scraping {channel_url}: {e}")
 
     async def run(self):
+        # Check if phone is provided
+        if not self.phone:
+            print("Error: TG_PHONE not found in environment variables.")
+            return
+
+        print(f"Starting Telegram Client with Phone: {self.phone[:4]}***")
+        
+        # Start the client with the phone number
+        await self.client.start(phone=self.phone)
+        
         async with self.client:
-            await self.client.start(phone=self.phone)
             for channel in CHANNELS:
                 await self.scrape_channel(channel)
 
