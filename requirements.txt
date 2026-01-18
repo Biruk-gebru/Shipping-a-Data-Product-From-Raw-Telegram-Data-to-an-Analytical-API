@@ -1,0 +1,5 @@
+telethon
+python-dotenv
+pandas
+pytest
+pytest-asyncio
