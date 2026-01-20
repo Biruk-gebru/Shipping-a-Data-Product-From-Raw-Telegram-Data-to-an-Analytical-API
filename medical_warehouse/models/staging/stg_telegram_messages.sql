@@ -1,6 +1,6 @@
 
 with source as (
-    select * from {{ source('raw', 'telegram_messages') }}
+    select * from {{ source('medical_warehouse', 'telegram_messages') }}
 ),
 
 cleaned as (

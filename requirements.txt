@@ -10,3 +10,5 @@ pytest-asyncio
 sqlalchemy
 psycopg2-binary
 dbt-postgres
+ultralytics
+opencv-python
