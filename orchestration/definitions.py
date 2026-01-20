@@ -10,7 +10,7 @@ from dagster import (
     AssetSelection,
 )
 
-from .assets import (
+from orchestration.assets import (
     telegram_scraper,
     data_loader,
     dbt_transform,
