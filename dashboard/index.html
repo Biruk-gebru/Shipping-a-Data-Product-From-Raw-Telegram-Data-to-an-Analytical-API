@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Telegram Data Pipeline - Dashboard</title>
+    <meta name="description" content="Interactive dashboard for monitoring and managing the Medical Telegram data pipeline">
+    <link rel="stylesheet" href="static/dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="8" fill="url(#gradient)"/>
+                        <path d="M16 8L8 14L16 20L24 14L16 8Z" fill="white" opacity="0.9"/>
+                        <path d="M16 20L8 26L16 32L24 26L16 20Z" fill="white" opacity="0.6"/>
+                        <defs>
+                            <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
+                                <stop offset="0%" stop-color="#667eea"/>
+                                <stop offset="100%" stop-color="#764ba2"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <h1>Medical Pipeline</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="refreshBtn">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M8 2L8 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M8 2L12 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Refresh
+                    </button>
+                    <button class="btn btn-primary" id="runPipelineBtn">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path d="M4 2L12 8L4 14V2Z" fill="currentColor"/>
+                        </svg>
+                        Run Pipeline
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Stats Overview -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 6L9 17L4 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Pipeline Runs</p>
+                        <h3 class="stat-value" id="totalRuns">0</h3>
+                        <p class="stat-change positive">+12% from last week</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect x="3" y="3" width="7" height="7" rx="1" stroke="white" stroke-width="2"/>
+                            <rect x="14" y="3" width="7" height="7" rx="1" stroke="white" stroke-width="2"/>
+                            <rect x="3" y="14" width="7" height="7" rx="1" stroke="white" stroke-width="2"/>
+                            <rect x="14" y="14" width="7" height="7" rx="1" stroke="white" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Messages Processed</p>
+                        <h3 class="stat-value" id="totalMessages">0</h3>
+                        <p class="stat-change positive">Active</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <rect x="4" y="4" width="16" height="16" rx="2" stroke="white" stroke-width="2"/>
+                            <path d="M4 9H20" stroke="white" stroke-width="2"/>
+                            <circle cx="8" cy="6.5" r="0.5" fill="white"/>
+                            <circle cx="10" cy="6.5" r="0.5" fill="white"/>
+                            <circle cx="12" cy="6.5" r="0.5" fill="white"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Images Analyzed</p>
+                        <h3 class="stat-value" id="totalImages">0</h3>
+                        <p class="stat-change">YOLO Detections</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Data Quality</p>
+                        <h3 class="stat-value">98.5%</h3>
+                        <p class="stat-change positive">Excellent</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pipeline Visualization -->
+            <section class="pipeline-section">
+                <div class="section-header">
+                    <h2>Pipeline Status</h2>
+                    <span class="badge badge-success" id="pipelineStatus">Running</span>
+                </div>
+                
+                <div class="pipeline-flow">
+                    <div class="pipeline-step" data-step="scraper">
+                        <div class="step-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M21 16V8C21 6.89543 20.1046 6 19 6H5C3.89543 6 3 6.89543 3 8V16C3 17.1046 3.89543 18 5 18H19C20.1046 18 21 17.1046 21 16Z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M7 10H7.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M11 10H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M7 14H7.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M11 14H17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>Scraper</h3>
+                        <p>Extract from Telegram</p>
+                        <span class="step-status status-success">Completed</span>
+                    </div>
+
+                    <div class="pipeline-arrow">→</div>
+
+                    <div class="pipeline-step" data-step="loader">
+                        <div class="step-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M4 7C4 5.89543 4.89543 5 6 5H18C19.1046 5 20 5.89543 20 7V17C20 18.1046 19.1046 19 18 19H6C4.89543 19 4 18.1046 4 17V7Z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M8 3V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M16 3V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M4 10H20" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3>Loader</h3>
+                        <p>Load to PostgreSQL</p>
+                        <span class="step-status status-success">Completed</span>
+                    </div>
+
+                    <div class="pipeline-arrow">→</div>
+
+                    <div class="pipeline-step" data-step="transform">
+                        <div class="step-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3>Transform</h3>
+                        <p>dbt Models</p>
+                        <span class="step-status status-running">Running</span>
+                    </div>
+
+                    <div class="pipeline-arrow">→</div>
+
+                    <div class="pipeline-step" data-step="enrich">
+                        <div class="step-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                                <path d="M21 15L16 10L5 21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3>Enrich</h3>
+                        <p>YOLO Detection</p>
+                        <span class="step-status status-pending">Pending</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Runs & Logs -->
+            <div class="content-grid">
+                <section class="recent-runs">
+                    <div class="section-header">
+                        <h2>Recent Runs</h2>
+                        <button class="btn-link">View All</button>
+                    </div>
+                    <div class="runs-list" id="runsList">
+                        <div class="run-item">
+                            <div class="run-status status-success"></div>
+                            <div class="run-info">
+                                <h4>Full Pipeline</h4>
+                                <p>Completed in 4m 32s</p>
+                            </div>
+                            <span class="run-time">2 hours ago</span>
+                        </div>
+                        <div class="run-item">
+                            <div class="run-status status-success"></div>
+                            <div class="run-info">
+                                <h4>Transform Only</h4>
+                                <p>Completed in 1m 15s</p>
+                            </div>
+                            <span class="run-time">6 hours ago</span>
+                        </div>
+                        <div class="run-item">
+                            <div class="run-status status-error"></div>
+                            <div class="run-info">
+                                <h4>YOLO Enrichment</h4>
+                                <p>Failed: Out of memory</p>
+                            </div>
+                            <span class="run-time">1 day ago</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="quick-actions">
+                    <div class="section-header">
+                        <h2>Quick Actions</h2>
+                    </div>
+                    <div class="actions-list">
+                        <button class="action-card">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 2L2 6L10 10L18 6L10 2Z" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            <span>Run Extract & Load</span>
+                        </button>
+                        <button class="action-card">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M3 3L17 17M17 3L3 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            <span>Run Transformations</span>
+                        </button>
+                        <button class="action-card">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                            <span>Run YOLO Detection</span>
+                        </button>
+                        <button class="action-card">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18Z" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M10 6V10L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            <span>View Schedules</span>
+                        </button>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="static/dashboard.js"></script>
+</body>
+</html>
