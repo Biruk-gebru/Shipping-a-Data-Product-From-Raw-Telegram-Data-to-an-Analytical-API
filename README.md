@@ -175,6 +175,12 @@ python -m http.server 8080 --directory dashboard
 # Access: http://localhost:8080
 ```
 
+**Dashboard Screenshot**:
+
+![Pipeline Dashboard UI](screenshots/dashboard_ui.png)
+
+*Modern, interactive dashboard for monitoring pipeline status, viewing statistics, and triggering jobs.*
+
 ---
 
 ## 🚀 Quick Start
