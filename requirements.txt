@@ -2,10 +2,6 @@ telethon
 python-dotenv
 pandas
 pytest
-telethon
-python-dotenv
-pandas
-pytest
 pytest-asyncio
 sqlalchemy
 psycopg2-binary
@@ -14,4 +10,7 @@ ultralytics
 opencv-python
 fastapi
 uvicorn
-
+dagster
+dagster-webserver
+dagster-postgres
+pydantic
